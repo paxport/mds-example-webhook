@@ -1,16 +1,9 @@
 package com.paxport.mdswebhook;
 
 /**
- *
- *
- *
+ * An example implementation of this interface is {@link PersistTransactionsHandler}
  */
-public class WebhookHandler {
+public interface WebhookHandler {
 
-
-    public String handleIncomingOrder(String json){
-
-        return "okay";
-    }
-
+    String handleIncomingOrder(String json);
 }

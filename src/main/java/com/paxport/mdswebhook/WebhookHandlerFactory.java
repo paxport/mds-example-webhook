@@ -6,7 +6,7 @@ package com.paxport.mdswebhook;
 public class WebhookHandlerFactory {
 
     public WebhookHandler create(){
-        return new WebhookHandler();
+        return new PersistTransactionsHandler();
     }
 
 }
