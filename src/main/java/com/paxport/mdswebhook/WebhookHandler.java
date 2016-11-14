@@ -5,5 +5,5 @@ package com.paxport.mdswebhook;
  */
 public interface WebhookHandler {
 
-    String handleIncomingOrder(String json);
+    String handleIncomingOrder(String json) throws Exception;
 }

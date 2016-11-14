@@ -31,7 +31,7 @@ public class SparkServer {
         post("/orders", (req, res) -> handleOrderPushMessage(req,res));
     }
 
-    private static String handleOrderPushMessage(Request req, Response res) {
+    private static String handleOrderPushMessage(Request req, Response res) throws Exception {
         String json = req.body();
         if ( !tokenMatchesSecret(req) ){
             res.status(403);

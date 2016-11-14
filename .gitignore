@@ -5,6 +5,9 @@
 
 .idea
 
+private
+target
+
 # Package Files #
 *.jar
 *.war

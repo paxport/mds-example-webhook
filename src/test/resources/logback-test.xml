@@ -31,6 +31,8 @@
         </encoder>
     </appender>
 
+    <logger name="com.paxport" level="DEBUG"/>
+
     <!-- Setting the root level of logging to INFO -->
     <root level="INFO">
         <appender-ref ref="STDOUT" />

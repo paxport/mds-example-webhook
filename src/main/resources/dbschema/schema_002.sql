@@ -2,7 +2,7 @@ CREATE TABLE `mds`.`supplier_transactions` (
   `txn_id` varchar(24) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `target` varchar(12) NOT NULL,
-  `agent_id` varchar(45) NOT NULL,
+  `agent_id` varchar(45) DEFAULT NULL,
   `supplier` varchar(45) NOT NULL,
   `system` varchar(45) NOT NULL,
   `type` varchar(24) NOT NULL,

@@ -5,10 +5,15 @@ import org.skife.jdbi.v2.DBI;
 
 import javax.sql.DataSource;
 
-
+/**
+ * Defines which DB we connect to
+ *
+ * Update this to point to your own mysql instance if you would like to
+ *
+ */
 public class DBConnections {
 
-    public DataSource dataSource(){
+    public static DataSource dataSource(){
         HikariDataSource ds = new HikariDataSource();
         ds.setJdbcUrl("jdbc:mysql://localhost:3306/mds");
         ds.setUsername("mds");
@@ -17,7 +22,7 @@ public class DBConnections {
     }
 
 
-    public DBI dbi () {
+    public static DBI dbi () {
         return new DBI(dataSource());
     }
 
