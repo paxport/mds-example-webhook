@@ -1,0 +1,31 @@
+version: '2'
+services:
+  mysql:
+    image: mariadb:10.1.14
+    container_name: mds_webhook_demo_mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./private/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mds
+      - MYSQL_DATABASE=mds
+      - MYSQL_USER=mds
+      - MYSQL_PASSWORD=mds
+  webhook:
+    image: paxportmds/mds-example-webhook:latest
+    container_name: mds_webhook_demo_server
+    depends_on:
+      - mysql
+    links:
+      - mysql:mysql
+    ports:
+      - "8181:8181"
+    volumes:
+      - ./private/serverlog:/var/log
+    environment:
+      - DB_URL=jdbc:mysql://mysql:3306/mds
+      - DB_USER=mds
+      - DB_PASSWORD=mds
+      - LISTEN_PORT=8181
+      - SHARED_SECRET=oursharedsecr37

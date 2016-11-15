@@ -2,10 +2,12 @@ package com.paxport.mdswebhook;
 
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
 
+@Ignore
 public class PersistTransactionsHandlerTest {
 
     private PersistTransactionsHandler handler = new PersistTransactionsHandler();

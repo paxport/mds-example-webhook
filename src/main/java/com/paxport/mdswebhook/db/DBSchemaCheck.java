@@ -56,9 +56,15 @@ public class DBSchemaCheck {
     }
 
     private int getLevelFromFilename(String filename) {
+        logger.info("schema file: " + filename );
         int start = filename.indexOf('_') + 1;
-        int end = filename.indexOf('.');
-        return Integer.parseInt(filename.substring(start,end));
+        if ( start > 0 ){
+            int end = filename.indexOf('.');
+            if ( end > -1 ){
+                return Integer.parseInt(filename.substring(start,end));
+            }
+        }
+        return 0;
     }
 
     public int getCurrentSchemaLevel(){

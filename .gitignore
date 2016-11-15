@@ -5,6 +5,8 @@
 
 .idea
 
+dependency-reduced-pom.xml
+
 private
 target
 
