@@ -33,6 +33,7 @@ and give them the publically addressable URL for the new service
 6. Orders will get passed to the *PersistTransactionsHandler* which will parse the JSON, pull out the supplier transaction and child items
 7. Each supplier transaction will result in an insert or update of the *mds.supplier_transactions* table
 8. Each transaction item will result in an insert or update of the *mds.transaction_items* table
+9. You can see the structure of the database tables at the bottom of this page
 
 ## Dev/Test
 
@@ -66,4 +67,78 @@ docker push paxportmds/mds-example-webhook
 * connect to container: *docker exec -i -t $(docker ps -q) /bin/bash*
 * connect to db: *mysql -u mds -p*
 * password: *mds*
-* create db: *create database mds*
+
+```
+$ docker ps
+CONTAINER ID        IMAGE                                   COMMAND                  CREATED             STATUS              PORTS                    NAMES
+cce66cdc0f70        paxportmds/mds-example-webhook:latest   "java -jar /mds-examp"   24 seconds ago      Up 22 seconds       0.0.0.0:8181->8181/tcp   mds_webhook_demo_server
+ca622d27de71        mariadb:10.1.14                         "docker-entrypoint.sh"   2 hours ago         Up 23 seconds       0.0.0.0:3306->3306/tcp   mds_webhook_demo_mysql
+$ docker exec -it ca622d27de71 /bin/bash
+root@ca622d27de71:/# mysql -u mds -p                                                                                                                                                          
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 13
+Server version: 10.1.14-MariaDB-1~jessie mariadb.org binary distribution
+
+MariaDB [(none)]> use mds;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MariaDB [mds]> show tables;
++-----------------------+
+| Tables_in_mds         |
++-----------------------+
+| schema_level          |
+| supplier_transactions |
+| transaction_items     |
++-----------------------+
+3 rows in set (0.00 sec)
+
+MariaDB [mds]> describe supplier_transactions;
++----------------------------+---------------+------+-----+-------------------+-------+
+| Field                      | Type          | Null | Key | Default           | Extra |
++----------------------------+---------------+------+-----+-------------------+-------+
+| txn_id                     | varchar(24)   | NO   | PRI | NULL              |       |
+| created_at                 | datetime      | NO   |     | CURRENT_TIMESTAMP |       |
+| target                     | varchar(12)   | NO   |     | NULL              |       |
+| agent_id                   | varchar(45)   | YES  |     | NULL              |       |
+| supplier                   | varchar(45)   | NO   |     | NULL              |       |
+| system                     | varchar(45)   | NO   |     | NULL              |       |
+| type                       | varchar(24)   | NO   |     | NULL              |       |
+| status                     | varchar(24)   | NO   |     | NULL              |       |
+| most_relevant_date         | date          | NO   |     | NULL              |       |
+| cost_amount                | decimal(19,4) | NO   |     | NULL              |       |
+| cost_currency              | varchar(3)    | NO   |     | NULL              |       |
+| order_id                   | varchar(45)   | NO   |     | NULL              |       |
+| booking_reference          | varchar(255)  | YES  |     | NULL              |       |
+| pax_name                   | varchar(255)  | YES  |     | NULL              |       |
+| updated_at                 | datetime      | YES  |     | NULL              |       |
+| failure_reason             | varchar(1024) | YES  |     | NULL              |       |
+| price_amount               | decimal(19,4) | YES  |     | NULL              |       |
+| price_currency             | varchar(3)    | YES  |     | NULL              |       |
+| request_id                 | varchar(45)   | YES  |     | NULL              |       |
+| tracing_id                 | varchar(45)   | YES  |     | NULL              |       |
+| logical_session_id         | varchar(128)  | YES  |     | NULL              |       |
+| external_payment_reference | varchar(255)  | YES  |     | NULL              |       |
++----------------------------+---------------+------+-----+-------------------+-------+
+
+MariaDB [mds]> describe transaction_items;    
++-----------------------+---------------+------+-----+---------+-------+
+| Field                 | Type          | Null | Key | Default | Extra |
++-----------------------+---------------+------+-----+---------+-------+
+| item_id               | varchar(24)   | NO   | PRI | NULL    |       |
+| txn_id                | varchar(24)   | NO   | MUL | NULL    |       |
+| service               | varchar(128)  | NO   |     | NULL    |       |
+| relevant_date         | date          | NO   |     | NULL    |       |
+| description           | varchar(255)  | NO   |     | NULL    |       |
+| base_cost_amount      | decimal(19,4) | NO   |     | NULL    |       |
+| cost_amount_with_fees | decimal(19,4) | NO   |     | NULL    |       |
+| cost_currency         | varchar(3)    | NO   |     | NULL    |       |
+| price_amount          | decimal(19,4) | YES  |     | NULL    |       |
+| price_currency        | varchar(3)    | YES  |     | NULL    |       |
+| idx                   | int(11)       | YES  |     | 99      |       |
++-----------------------+---------------+------+-----+---------+-------+
+```
+
+
