@@ -12,7 +12,7 @@ MySQL Database. Each request checks that the incoming request uri contains a sha
 ### Get up and running with a demo system in 5 minutes
 
 * Clone this repo
-* Install Docker Locally (for local db container)
+* Install [Docker](https://www.docker.com/products/docker) locally (for local db container)
 * cd into the *demo* directory and run: *docker-compose up*
 * Now you have a running mysql db and a server listening on localhost:8181
 * Punch a hole in your firewall to forward traffic to the local host on port 8181
